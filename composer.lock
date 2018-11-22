@@ -4,7 +4,11 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
+<<<<<<< HEAD
     "content-hash": "e9147fda0f4b97fd21f916b7aaf6a668",
+=======
+    "content-hash": "906316991fade834ffafa20fd06aac2f",
+>>>>>>> origin/master
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -663,6 +667,7 @@
             "time": "2016-10-24T15:52:54+00:00"
         },
         {
+<<<<<<< HEAD
             "name": "imagine/imagine",
             "version": "1.1.0",
             "source": {
@@ -721,6 +726,8 @@
             "time": "2018-10-25T06:45:38+00:00"
         },
         {
+=======
+>>>>>>> origin/master
             "name": "rmrevin/yii2-fontawesome",
             "version": "2.17.1",
             "source": {

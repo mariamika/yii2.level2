@@ -60,7 +60,10 @@
                             ],
                         ],
                     ],
+<<<<<<< HEAD
                     ['label' => 'Admin', 'url' => ['/admin']],
+=======
+>>>>>>> origin/master
                 ],
             ]
         ) ?>
