@@ -11,6 +11,7 @@ use yii\db\Expression;
  *
  * @property int $index
  * @property string $name
+ * @property string $email
  * @property int $id_users
  * @property string $created_at
  * @property string $updated_at
@@ -44,7 +45,8 @@ class Performer extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name'], 'required'],
+            [['name','email'], 'required'],
+            [['email'],'email'],
             [['name'], 'string', 'max' => 150],
         ];
     }
@@ -56,6 +58,7 @@ class Performer extends \yii\db\ActiveRecord
     {
         return [
             'name' => 'Name',
+            'email' => 'Email',
         ];
     }
 

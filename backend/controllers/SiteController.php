@@ -60,7 +60,13 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        if (Yii::$app->user->can('createTask')){
+            return $this->render('index');}
+        else {
+            //todo написать перенаправление на главную страницу frontend
+            return $this->render('access');
+        }
+
     }
 
     /**
