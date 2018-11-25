@@ -4,6 +4,7 @@ namespace common\models;
 
 use yii\behaviors\TimestampBehavior;
 use yii\db\Expression;
+use yii\imagine\Image;
 use yii\web\UploadedFile;
 
 /**
@@ -60,10 +61,10 @@ class Files extends \yii\db\ActiveRecord
         if ($this->validate()){
             foreach ($this->file as $file){
                 $baseName = $file->getBaseName() . '.' . $file->getExtension();
-                $fileName = '@webroot/img/big/' . $baseName;
+                $fileName = '@backend/web/img/big/' . $baseName;
                 $file->saveAs(\Yii::getAlias($fileName),false);
-//                Image::thumbnail($fileName,100,100)
-//                    ->save(\Yii::getAlias('@webroot/img/small/' . $baseName));
+                Image::thumbnail($fileName,100,100)
+                    ->save(\Yii::getAlias('@backend/web/img/small/' . $baseName));
             }
             return true;
         } else {

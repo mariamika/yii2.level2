@@ -3,7 +3,8 @@ actor: AcceptanceTester
 modules:
     enabled:
         - WebDriver:
-            url: http://localhost:8080
-            browser: firefox
+            url: http://front.yii.local/
+            browser: chrome
+            port: 9515
         - Yii2:
             part: init
