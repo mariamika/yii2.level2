@@ -3,6 +3,8 @@
 namespace common\models;
 
 use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveQuery;
+use yii\db\ActiveRecord;
 use yii\db\Expression;
 
 /**
@@ -96,5 +98,13 @@ class Tasks extends \yii\db\ActiveRecord
     public function getPerformer()
     {
         return $this->hasOne(Performer::className(), ['index' => 'namePerformer']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getComment()
+    {
+        return $this->hasMany(Comment::className(), ['id_task' => 'id_task']);
     }
 }

@@ -8,6 +8,8 @@ use yii\widgets\DetailView;
 /* @var $model \common\models\Tasks */
 /* @var $model_pic \common\models\Files */
 
+\backend\assets\SocketAsset::register($this);
+
 $this->title = Yii::t('app','Task number ') . $model->id_task;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app','Tasks'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
@@ -57,4 +59,14 @@ $this->params['breadcrumbs'][] = $this->title;
             }
         }?>
     </div>
+
+    <form action="#" name="chat-form" id="chat-form">
+        <label>
+            Введите сообщение
+            <input type="text" name="message">
+            <input type="submit">
+        </label>
+    </form>
+    <hr>
+    <div id="root-chat"></div>
 </div>
