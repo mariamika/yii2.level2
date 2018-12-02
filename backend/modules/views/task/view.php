@@ -7,6 +7,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model \common\models\Tasks */
 /* @var $model_pic \common\models\Files */
+/* @var $model_comment \common\models\Comment */
 
 \backend\assets\SocketAsset::register($this);
 
@@ -16,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="tasks-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+<!--    <h1>--><?//= Html::encode($this->title) ?><!--</h1>-->
 
     <p>
         <?php
@@ -45,28 +46,49 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]) ?>
 
-    <div>
-        <? if (is_object($model_pic)){
-            echo Html::img(Url::to($model_pic->address_small_picture),['alt' => 'Upload Image for Task']);
-        } else {
-            foreach ($model_pic as $item){
-                echo Html::img(Url::to($item->address_small_picture),[
-                    'alt' => 'Upload Image for Task',
-                    'style' =>[
-                        'margin' => '10px',
-                        'width' => '150px',
-                    ]]);
-            }
-        }?>
-    </div>
-
-    <form action="#" name="chat-form" id="chat-form">
-        <label>
-            Введите сообщение
-            <input type="text" name="message">
-            <input type="submit">
-        </label>
-    </form>
-    <hr>
-    <div id="root-chat"></div>
+    <table>
+        <tr>
+            <td style="width: 50%">
+                <div>
+                    <form action="#" name="chat-form" id="chat-form">
+                        <label>
+                            Введите комментарий
+                            <input type="text" name="message">
+                            <input type="submit">
+                            <input type="hidden" name="task_id" value="<?= $model->id_task?>">
+                        </label>
+                    </form>
+                </div>
+                <hr>
+                <div id="root-chat" style="height: 200px; overflow: auto">
+                    <div>
+                        <?php if (is_object($model_comment)){
+                            echo Html::tag('div', Html::encode($model_comment->message));
+                        } else {
+                            foreach ($model_comment as $comment){
+                                echo Html::tag('div', Html::encode($comment->message));
+                            }
+                        }?>
+                    </div>
+                </div>
+            </td>
+            <td style="width: 50%">
+                <div>
+                    <?php if (is_object($model_pic)){
+                        echo Html::img(Url::to($model_pic->address_small_picture),['alt' => 'Upload Image for Task']);
+                    } else {
+                        foreach ($model_pic as $item){
+                            echo Html::img(Url::to($item->address_small_picture),[
+                                'alt' => 'Upload Image for Task',
+                                'style' =>[
+                                    'margin' => '10px',
+                                    'width' => '150px',
+                                ]]);
+                        }
+                    }?>
+                </div>
+            </td>
+        </tr>
+        <tr></tr>
+    </table>
 </div>

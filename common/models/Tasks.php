@@ -3,8 +3,6 @@
 namespace common\models;
 
 use yii\behaviors\TimestampBehavior;
-use yii\db\ActiveQuery;
-use yii\db\ActiveRecord;
 use yii\db\Expression;
 
 /**
@@ -105,6 +103,6 @@ class Tasks extends \yii\db\ActiveRecord
      */
     public function getComment()
     {
-        return $this->hasMany(Comment::className(), ['id_task' => 'id_task']);
+        return $this->hasMany(Comment::className(), ['task_id' => 'id_task']);
     }
 }
