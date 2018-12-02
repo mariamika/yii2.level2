@@ -82,7 +82,7 @@ class TaskSearch extends Tasks
 
         \Yii::$app->db->cache(function () use ($dataProvider) {
             $dataProvider->prepare();
-        },30);
+        },10);
         return $dataProvider;
     }
 }

@@ -2,18 +2,33 @@
 
 namespace common\models;
 
+use yii\behaviors\TimestampBehavior;
+use yii\db\Expression;
+
 /**
  * This is the model class for table "comment".
  *
  * @property int $id_comment
- * @property int $id_user
- * @property int $id_task
+ * @property int $user_id
+ * @property int $task_id
  * @property string $message
+ * @property string $created_at
+ * @property string $updated_at
  *
- * @property Tasks $task
+ * @property Tasks
  */
 class Comment extends \yii\db\ActiveRecord
 {
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => TimestampBehavior::className(),
+                'value' => new Expression('NOW()'),
+            ],
+        ];
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -28,8 +43,8 @@ class Comment extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_user', 'id_task'], 'integer'],
-            [['message'], 'string', 'max' => 255],
+            [['user_id', 'task_id'], 'integer'],
+            [['message'], 'string'],
         ];
     }
 
@@ -40,17 +55,29 @@ class Comment extends \yii\db\ActiveRecord
     {
         return [
             'id_comment' => 'Id Comment',
-            'id_user' => 'Id User',
-            'id_task' => 'Id Task',
+            'user_id' => 'User ID',
+            'task_id' => 'Task ID',
             'message' => 'Message',
+            'created_at' => 'Created At',
+            'updated_at' => 'Updated At',
         ];
+    }
+
+    static public function getDate($id_task){
+        return Comment::find()
+            ->joinWith(['tasks'])
+            ->select(['comment.*','tasks.*'])
+            ->where('comment.task_id = :id_task')
+            ->addParams([':id_task' => $id_task])
+            ->orderBy(['id_comment' => SORT_DESC])
+            ->all();
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getTask()
+    public function getTasks()
     {
-        return $this->hasOne(Tasks::className(), ['id_task' => 'id_task']);
+        return $this->hasOne(Tasks::className(), ['id_task' => 'task_id']);
     }
 }

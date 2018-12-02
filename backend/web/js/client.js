@@ -15,8 +15,20 @@ webSocket.onmessage = function(event){
 
 document.getElementById("chat-form")
     .addEventListener("submit", function () {
+        let task_id = this.task_id.value;
         let textMessage = this.message.value;
         webSocket.send(textMessage);
         event.preventDefault();
+        $.ajax({
+            type: 'POST',
+            data: {message: textMessage, task_id: task_id},
+            url:'/admin/comment',
+            complete: function(){
+                //$('#root-chat').load('');
+            },
+            error: function () {
+                $('#root-chat').html('There was an error!');
+            },
+        });
         return false;
     });

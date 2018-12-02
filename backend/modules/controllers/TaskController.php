@@ -3,6 +3,7 @@
 namespace backend\modules\controllers;
 
 use Yii;
+use common\models\Comment;
 use common\models\Files;
 use common\models\Performer;
 use common\models\Tasks;
@@ -58,10 +59,12 @@ class TaskController extends Controller
     {
         $model = $this->findModel($id);
         $model_pic = $this->findFiles($model->id_task);
+        $model_comment = $this->findComment($model->id_task);
 
         return $this->render('view', [
             'model' => $model,
             'model_pic' => $model_pic,
+            'model_comment' => $model_comment,
 
         ]);
     }
@@ -175,6 +178,21 @@ class TaskController extends Controller
     {
         if (($model_pic = Files::getDate($id_task)) !== null) {
             return $model_pic;
+        }
+
+        throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    /**
+     * Finds the Comment model based on its id_task value.
+     * If the model is not found, a 404 HTTP exception will be thrown.
+     * @param integer $id_task
+     * @return Comment the loaded model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    protected function findComment($id_task){
+        if (($model_comment = Comment::getDate($id_task)) !== null){
+            return $model_comment;
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
