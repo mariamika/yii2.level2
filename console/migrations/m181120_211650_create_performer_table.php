@@ -15,6 +15,7 @@ class m181120_211650_create_performer_table extends Migration
         $this->createTable('performer', [
             'index' => $this->primaryKey(),
             'name' => $this->string(150)->notNull(),
+            'email' => $this->string(150)->notNull(),
             'id_users' => $this->integer(),
             'created_at' => $this->dateTime(),
             'updated_at' => $this->dateTime(),

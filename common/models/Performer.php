@@ -47,7 +47,7 @@ class Performer extends \yii\db\ActiveRecord
         return [
             [['name','email'], 'required'],
             [['email'],'email'],
-            [['name'], 'string', 'max' => 150],
+            [['name','email'], 'string', 'max' => 150],
         ];
     }
 

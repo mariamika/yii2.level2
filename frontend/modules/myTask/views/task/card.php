@@ -1,7 +1,6 @@
 <?php
 
 use yii\helpers\Html;
-use yii\helpers\Url;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
@@ -9,28 +8,15 @@ use yii\widgets\DetailView;
 /* @var $model_pic \common\models\Files */
 /* @var $model_comment \common\models\Comment */
 
-\backend\assets\SocketAsset::register($this);
+\frontend\assets\SocketAsset::register($this);
 
 $this->title = Yii::t('app','Task number ') . $model->id_task;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app','Tasks'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app','My Tasks'), 'url' => ['/myTask']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="tasks-view">
 
-    <p>
-        <?php
-        if (Yii::$app->user->can('deleteTask')){
-            echo Html::a(Yii::t('app','Update'), ['update', 'id' => $model->id_task], ['class' => 'btn btn-primary']);
-            echo ' ';
-            echo Html::a(Yii::t('app','Delete'), ['delete', 'id' => $model->id_task], [
-                'class' => 'btn btn-danger',
-                'data' => [
-                    'confirm' => 'Are you sure you want to delete this item?',
-                    'method' => 'post',
-                ],
-            ]);
-        }?>
-    </p>
+    <h1><?= Html::encode($this->title) ?></h1>
 
     <?= DetailView::widget([
         'model' => $model,
@@ -82,10 +68,10 @@ $this->params['breadcrumbs'][] = $this->title;
             <td style="width: 50%">
                 <div>
                     <?php if (is_object($model_pic)){
-                        echo Html::img(Url::to($model_pic->address_small_picture),['alt' => 'Upload Image for Task']);
+                        echo Html::img(\yii\helpers\Url::to($model_pic->address_small_picture),['alt' => 'Upload Image for Task']);
                     } else {
                         foreach ($model_pic as $item){
-                            echo Html::img(Url::to($item->address_small_picture),[
+                            echo Html::img(\yii\helpers\Url::to($item->address_small_picture),[
                                 'alt' => 'Upload Image for Task',
                                 'style' =>[
                                     'margin' => '10px',

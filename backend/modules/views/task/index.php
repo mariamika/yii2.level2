@@ -10,11 +10,7 @@ use yii\grid\GridView;
 $this->title = Yii::t('app','Tasks');?>
 <div class="tasks-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <p>
-        <?= Html::a(Yii::t('app','Create Tasks'), ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+    <p><?= Html::a(Yii::t('app','Create Tasks'), ['create'], ['class' => 'btn btn-success']) ?></p>
 
     <?php
     if (Yii::$app->user->can('deleteTask')){
@@ -27,24 +23,43 @@ $this->title = Yii::t('app','Tasks');?>
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-            ['attribute' => 'id_task',
-                'label' => Yii::t('app','ID Task'),
-                'value' => 'id_task'],
             ['attribute' => 'taskName',
                 'label' => Yii::t('app','Task Name'),
                 'value' => 'taskName'],
+            ['attribute' => 'statusTask',
+                'filter' => [
+                    0 => 'Close',
+                    1 => 'Active'
+                ],
+                'label' => Yii::t('app','Status'),
+                'format' => 'raw',
+                'value' => function ($model, $key, $index, $column) {
+                    $active = $model->{$column->attribute} === 1;
+                    return $active ? '<span class="label label-success">Active</span>' : '<span class="label label-danger">Close</span>';
+                },
+            ],
+            ['attribute' => 'description',
+                'label' => Yii::t('app','Description'),
+                //TODO не работает установка ширины столбца ...
+                //'contentOptions' => ['style' => 'width: 100px !important;'],
+                'value' => 'description'],
             ['attribute' => 'priority',
                 'label' => Yii::t('app','Priority'),
                 'value' => 'priority'],
             ['attribute' => 'dateCreate',
                 'label' => Yii::t('app','Date Create'),
+                'format' => ['date', 'dd/MM/yyyy'],
                 'value' => 'dateCreate'],
             ['attribute' => 'dateDeadline',
                 'label' => Yii::t('app','Date Deadline'),
+                'format' => ['date', 'dd/MM/yyyy'],
                 'value' => 'dateDeadline'],
             ['attribute' => 'performer',
                 'label' => Yii::t('app','Performer'),
                 'value' => 'performer.name'],
+            ['attribute' => 'creatorTask',
+                'label' => Yii::t('app','Creator'),
+                'value' => 'user.username'],
             ['class' => 'yii\grid\ActionColumn',
                 'template' => $actionColumns],
         ],

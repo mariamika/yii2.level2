@@ -10,8 +10,11 @@ use yii\db\Expression;
  *
  * @property int $id_task
  * @property string $taskName
+ * @property string $description
+ * @property int $statusTask
  * @property int $namePerformer
  * @property int $priority
+ * @property int $creator
  * @property string $dateCreate
  * @property string $dateDeadline
  * @property string $created_at
@@ -19,6 +22,8 @@ use yii\db\Expression;
  *
  * @property Files
  * @property Performer
+ * @property User
+ * @property Comment
  */
 class Tasks extends \yii\db\ActiveRecord
 {
@@ -47,10 +52,10 @@ class Tasks extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['taskName', 'namePerformer', 'priority', 'dateCreate'], 'required'],
-            [['namePerformer', 'priority'], 'integer'],
+            [['taskName', 'namePerformer', 'priority', 'dateCreate','description','creator'], 'required'],
+            [['namePerformer', 'priority','statusTask','creator'], 'integer'],
             [['dateCreate', 'dateDeadline'], 'safe'],
-            [['taskName'], 'string', 'max' => 100],
+            [['taskName','description'], 'string', 'max' => 250],
             [['dateDeadline'], 'default', 'value' => function(){
                 return $this->dateCreate;}],
             [['dateDeadline'], 'common\components\validators\DeadlineValidator'],
@@ -65,21 +70,24 @@ class Tasks extends \yii\db\ActiveRecord
         return [
             'id_task' => 'Id Task',
             'taskName' => 'Task Name',
+            'description' => 'Description',
             'namePerformer' => 'Performer',
+            'creator' => 'Creator',
             'priority' => 'Priority',
+            'statusTask' => 'Status',
             'dateCreate' => 'Date Create',
             'dateDeadline' => 'Date Deadline',
         ];
     }
 
     static public function getDate($id){
+
         return Tasks::find()
+            ->joinWith(['performer','user'])
             ->select(['tasks.*','performer.*','user.*'])
-            ->from('tasks')
-            ->join('LEFT OUTER JOIN','performer','performer.index = tasks.namePerformer')
-            ->join('LEFT OUTER JOIN','user','user.id = performer.id_users')
             ->where('performer.id_users = :id_users')
-            ->addParams([':id_users' => $id]);
+            ->andWhere('tasks.creator = :user_id')
+            ->addParams([':id_users' => $id, ':user_id' => $id]);
     }
 
     /**
@@ -104,5 +112,13 @@ class Tasks extends \yii\db\ActiveRecord
     public function getComment()
     {
         return $this->hasMany(Comment::className(), ['task_id' => 'id_task']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUser()
+    {
+        return $this->hasOne(User::className(), ['id' => 'creator']);
     }
 }

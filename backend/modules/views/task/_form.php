@@ -16,6 +16,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'taskName')->textInput(['maxlength' => true]) ?>
 
+    <?= $form->field($model, 'description')->textarea()?>
+
     <?= $form->field($model, 'priority')->dropDownList([
         '1' => 'Высокий приоритет',
         '2' => 'Средний приоритет',
@@ -36,6 +38,8 @@ use yii\widgets\ActiveForm;
     ?>
 
     <?= $form->field($model, 'namePerformer')->dropDownList($items, ['prompt' => '-Choose a Performer-']) ?>
+
+    <?= $form->field($model, 'creator')->input('hidden',['value' => Yii::$app->user->id])->label(false)?>
 
     <?php if (is_object($model_pic)){
         echo $form->field($model_pic, 'file[]')->fileInput(['multiple' => true, 'accept' => 'image/*']);

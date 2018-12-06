@@ -17,6 +17,7 @@ class m181121_083946_alter_tasks_performer_files_role_table extends Migration
         $this->addForeignKey('fk_files_tasks','files','tasks_id','tasks','id_task');
         $this->addColumn('user','role_id','integer');
         $this->addForeignKey('fk_user_role','user','role_id','role','id_role');
+        $this->addForeignKey('fk_tasks_user','tasks','creator','user','id');
     }
 
     /**
@@ -29,5 +30,6 @@ class m181121_083946_alter_tasks_performer_files_role_table extends Migration
         $this->dropForeignKey('fk_files_tasks','files');
         $this->dropColumn('user','role_id');
         $this->dropForeignKey('fk_user_role','user');
+        $this->dropForeignKey('fk_tasks_user','tasks');
     }
 }

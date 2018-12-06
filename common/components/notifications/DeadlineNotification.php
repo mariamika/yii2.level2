@@ -1,6 +1,5 @@
 <?php
-namespace app\components\notifications;
-use Yii;
+namespace common\components\notifications;
 
 class DeadlineNotification
 {

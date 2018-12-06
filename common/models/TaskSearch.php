@@ -11,6 +11,7 @@ use yii\data\ActiveDataProvider;
 class TaskSearch extends Tasks
 {
     public $performer;
+    public $creatorTask;
 
     /**
      * {@inheritdoc}
@@ -18,9 +19,9 @@ class TaskSearch extends Tasks
     public function rules()
     {
         return [
-            [['id_task', 'priority', 'namePerformer'], 'integer'],
-            [['taskName'],'string'],
-            [['dateCreate', 'dateDeadline', 'performer'], 'safe'],
+            [['id_task', 'priority', 'namePerformer','creator','statusTask'], 'integer'],
+            [['taskName','description'],'string'],
+            [['dateCreate', 'dateDeadline', 'performer','creatorTask'], 'safe'],
         ];
     }
 
@@ -43,8 +44,8 @@ class TaskSearch extends Tasks
     public function search($params)
     {
         $query = Tasks::find()
-            ->joinWith(['performer'])
-            ->select(['tasks.*','performer.*']);;
+            ->joinWith(['performer','user'])
+            ->select(['tasks.*','performer.*','user.*']);;
 
         // add conditions that should always apply here
 
@@ -61,6 +62,11 @@ class TaskSearch extends Tasks
             'desc' => ['performer.name' => SORT_DESC],
         ];
 
+        $dataProvider->sort->attributes['creatorTask'] = [
+            'asc' => ['user.username' => SORT_ASC],
+            'desc' => ['user.username' => SORT_DESC],
+        ];
+
         $this->load($params);
 
         if (!$this->validate()) {
@@ -73,11 +79,15 @@ class TaskSearch extends Tasks
         $query->andFilterWhere([
             'id_task' => $this->id_task,
             'priority' => $this->priority,
+            'statusTask' => $this->statusTask,
         ]);
 
         $query->andFilterWhere(['like', 'taskName', $this->taskName])
             ->andFilterWhere(['like', 'dateCreate', $this->dateCreate])
             ->andFilterWhere(['like', 'dateDeadline', $this->dateDeadline])
+            //->andFilterWhere(['like', 'creator', $this->creator])
+            ->andFilterWhere(['like', 'description', $this->description])
+            ->andFilterWhere(['like', 'user.username', $this->creatorTask])
             ->andFilterWhere(['like', 'performer.name', $this->performer]);
 
         \Yii::$app->db->cache(function () use ($dataProvider) {

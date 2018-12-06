@@ -11,6 +11,17 @@ return [
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
+    'modules' => [
+        'tasks' => [
+            'class' => 'frontend\modules\tasks\tasks',
+        ],
+        'myTask' => [
+            'class' => 'frontend\modules\myTask\myTask',
+        ],
+        'chat' => [
+            'class' => 'frontend\modules\chat\chat'
+        ],
+    ],
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-frontend',
@@ -46,7 +57,6 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                '' => 'site/index',
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
             ],
         ],

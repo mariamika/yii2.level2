@@ -141,9 +141,14 @@ class TaskController extends Controller
     {
         $model = $this->findModel($id);
         $model_pic = $this->findFiles($model->id_task);
+        $model_comment = $this->findComment($model->id_task);
         foreach ($model_pic as $file)
         {
             $file->delete();
+        }
+        foreach ($model_comment as $comment)
+        {
+            $comment->delete();
         }
         $model->delete();
         Yii::$app->cache->flush();
