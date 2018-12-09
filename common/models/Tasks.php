@@ -24,6 +24,7 @@ use yii\db\Expression;
  * @property Performer
  * @property User
  * @property Comment
+ * @property Project
  */
 class Tasks extends \yii\db\ActiveRecord
 {
@@ -120,5 +121,13 @@ class Tasks extends \yii\db\ActiveRecord
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'creator']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProject()
+    {
+        return $this->hasOne(Project::className(), ['id_project' => 'project_id']);
     }
 }
