@@ -2,24 +2,25 @@
 
 namespace common\models;
 
-use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\Project;
 
 /**
  * ProjectSearch represents the model behind the search form of `common\models\Project`.
  */
 class ProjectSearch extends Project
 {
+    public $responsibleProject;
+
     /**
      * {@inheritdoc}
      */
     public function rules()
     {
         return [
-            [['id_project', 'project_status'], 'integer'],
-            [['projectName', 'description', 'responsible'], 'safe'],
+            [['id_project', 'project_status', 'responsible'], 'integer'],
+            [['projectName', 'description'], 'string'],
+            [['responsibleProject'], 'safe'],
         ];
     }
 
@@ -41,13 +42,24 @@ class ProjectSearch extends Project
      */
     public function search($params)
     {
-        $query = Project::find();
+        $query = Project::find()
+            ->joinWith(['user'])
+            ->select(['project.*','user.*']);
 
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort'=> ['defaultOrder' => ['id_project' => SORT_ASC]],
+            'pagination' => [
+                'pageSize' => 5
+            ],
         ]);
+
+        $dataProvider->sort->attributes['responsibleProject'] = [
+            'asc' => ['user.username' => SORT_ASC],
+            'desc' => ['user.username' => SORT_DESC],
+        ];
 
         $this->load($params);
 
@@ -65,7 +77,7 @@ class ProjectSearch extends Project
 
         $query->andFilterWhere(['like', 'projectName', $this->projectName])
             ->andFilterWhere(['like', 'description', $this->description])
-            ->andFilterWhere(['like', 'responsible', $this->responsible]);
+            ->andFilterWhere(['like', 'user.username', $this->responsibleProject]);
 
         return $dataProvider;
     }

@@ -45,7 +45,23 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
             ],
             'description',
-            'priority',
+            ['attribute' => 'priority',
+                'label' => Yii::t('app','Priority'),
+                'format' => 'raw',
+                'value' => function ($data){
+                    $arr_search = [
+                        1 => 'Высокий приоритет',
+                        2 => 'Средний приоритет',
+                        3 => 'Низкий приоритет',
+                        4 => 'Необязательно'
+                    ];
+
+                    if (array_key_exists($data->priority,$arr_search)){
+                        return '<span class="label label-primary">' . $arr_search[$data->priority] . '</span>';
+                    }
+                }
+            ],
+            'project.projectName:text:Project',
             'dateCreate',
             'dateDeadline',
             'performer.name:text:Performer',

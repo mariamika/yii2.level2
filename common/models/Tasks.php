@@ -19,6 +19,7 @@ use yii\db\Expression;
  * @property string $dateDeadline
  * @property string $created_at
  * @property string $updated_at
+ * @property int $project_id
  *
  * @property Files
  * @property Performer
@@ -53,8 +54,8 @@ class Tasks extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['taskName', 'namePerformer', 'priority', 'dateCreate','description','creator'], 'required'],
-            [['namePerformer', 'priority','statusTask','creator'], 'integer'],
+            [['taskName', 'namePerformer', 'priority', 'dateCreate','description','creator','project_id'], 'required'],
+            [['namePerformer', 'priority','statusTask','creator','project_id'], 'integer'],
             [['dateCreate', 'dateDeadline'], 'safe'],
             [['taskName','description'], 'string', 'max' => 250],
             [['dateDeadline'], 'default', 'value' => function(){
@@ -78,14 +79,15 @@ class Tasks extends \yii\db\ActiveRecord
             'statusTask' => 'Status',
             'dateCreate' => 'Date Create',
             'dateDeadline' => 'Date Deadline',
+            'project_id' => 'Project'
         ];
     }
 
     static public function getDate($id){
 
         return Tasks::find()
-            ->joinWith(['performer','user'])
-            ->select(['tasks.*','performer.*','user.*'])
+            ->joinWith(['performer','user','project'])
+            ->select(['tasks.*','performer.*','user.*','project.*'])
             ->where('performer.id_users = :id_users')
             ->andWhere('tasks.creator = :user_id')
             ->addParams([':id_users' => $id, ':user_id' => $id]);

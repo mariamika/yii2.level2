@@ -17,9 +17,12 @@ class m181208_232751_create_project_table extends Migration
             'projectName' => $this->string()->notNull(),
             'project_status' => $this->integer()->defaultValue(1),
             'description' => $this->string(),
-            'responsible' => $this->string(),
+            'responsible' => $this->integer(),
+            'created_at' => $this->dateTime(),
+            'updated_at' => $this->dateTime(),
         ]);
         $this->addForeignKey('fk_tasks_project','tasks','project_id','project','id_project');
+        $this->addForeignKey('fk_project_user','project','responsible','user','id');
     }
 
     /**
@@ -27,7 +30,8 @@ class m181208_232751_create_project_table extends Migration
      */
     public function safeDown()
     {
-        $this->dropForeignKey('fk_project_tasks','project');
+        $this->dropForeignKey('fk_tasks_project','tasks');
+        $this->dropForeignKey('fk_project_user','project');
         $this->dropTable('project');
     }
 }

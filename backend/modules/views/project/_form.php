@@ -11,7 +11,6 @@ use yii\widgets\ActiveForm;
 ?>
 
 <div class="project-form">
-    <?php \yii\widgets\Pjax::begin(['id' => 'new_project'])?>
 
     <?php $form = ActiveForm::begin(); ?>
 
@@ -19,9 +18,9 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'project_status')->textInput() ?>
 
-    <?= $form->field($model, 'description')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'description')->textarea() ?>
 
-    <?= $form->field($model, 'responsible')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'responsible')->dropDownList($items, ['prompt' => '-Choose a Responsible']) ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
@@ -29,5 +28,4 @@ use yii\widgets\ActiveForm;
 
     <?php ActiveForm::end(); ?>
 
-    <?php \yii\widgets\Pjax::end();?>
 </div>

@@ -3,6 +3,7 @@
 /* @var $this yii\web\View */
 /* @var $model \common\models\Tasks */
 /* @var $model_pic \common\models\Files */
+/* @var $projects \common\models\Project */
 /* @var $items */
 
 $this->title = Yii::t('app','Create Tasks');
@@ -14,7 +15,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= $this->render('_form', [
         'model' => $model,
         'model_pic' => $model_pic,
-        'items' => $items
+        'items' => $items,
+        'projects' =>$projects,
     ]) ?>
 
 </div>

@@ -12,6 +12,7 @@ class TaskSearch extends Tasks
 {
     public $performer;
     public $creatorTask;
+    public $project;
 
     /**
      * {@inheritdoc}
@@ -21,7 +22,7 @@ class TaskSearch extends Tasks
         return [
             [['id_task', 'priority', 'namePerformer','creator','statusTask'], 'integer'],
             [['taskName','description'],'string'],
-            [['dateCreate', 'dateDeadline', 'performer','creatorTask'], 'safe'],
+            [['dateCreate', 'dateDeadline', 'performer','creatorTask','project'], 'safe'],
         ];
     }
 
@@ -44,8 +45,8 @@ class TaskSearch extends Tasks
     public function search($params)
     {
         $query = Tasks::find()
-            ->joinWith(['performer','user'])
-            ->select(['tasks.*','performer.*','user.*']);;
+            ->joinWith(['performer','user','project'])
+            ->select(['tasks.*','performer.*','user.*','project.*']);
 
         // add conditions that should always apply here
 
@@ -67,6 +68,11 @@ class TaskSearch extends Tasks
             'desc' => ['user.username' => SORT_DESC],
         ];
 
+        $dataProvider->sort->attributes['project'] = [
+            'asc' => ['project.projectName' => SORT_ASC],
+            'desc' => ['project.projectName' => SORT_DESC],
+        ];
+
         $this->load($params);
 
         if (!$this->validate()) {
@@ -85,9 +91,9 @@ class TaskSearch extends Tasks
         $query->andFilterWhere(['like', 'taskName', $this->taskName])
             ->andFilterWhere(['like', 'dateCreate', $this->dateCreate])
             ->andFilterWhere(['like', 'dateDeadline', $this->dateDeadline])
-            //->andFilterWhere(['like', 'creator', $this->creator])
             ->andFilterWhere(['like', 'description', $this->description])
             ->andFilterWhere(['like', 'user.username', $this->creatorTask])
+            ->andFilterWhere(['like', 'project.projectName', $this->project])
             ->andFilterWhere(['like', 'performer.name', $this->performer]);
 
         \Yii::$app->db->cache(function () use ($dataProvider) {

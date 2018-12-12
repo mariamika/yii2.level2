@@ -25,7 +25,7 @@ class ListController extends Controller
         $dataProvider = new ActiveDataProvider([
             'query' => $model,
             'pagination' => [
-                'pageSize' => 5
+                'pageSize' => 4
             ]
         ]);
 

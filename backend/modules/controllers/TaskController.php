@@ -2,6 +2,7 @@
 
 namespace backend\modules\controllers;
 
+use common\models\Project;
 use Yii;
 use common\models\Comment;
 use common\models\Files;
@@ -79,6 +80,7 @@ class TaskController extends Controller
         $model = new Tasks();
         $model_pic = new Files();
         $items = ArrayHelper::map(Performer::find()->all(),'index','name');
+        $projects = ArrayHelper::map(Project::find()->all(),'id_project','projectName');
 
         if ($model->load(Yii::$app->request->post()) && $model_pic->load(Yii::$app->request->post())) {
             $model_pic->file = UploadedFile::getInstances($model_pic,'file');
@@ -101,7 +103,8 @@ class TaskController extends Controller
         return $this->render('create', [
             'model' => $model,
             'model_pic' => $model_pic,
-            'items' => $items
+            'items' => $items,
+            'projects' =>$projects,
         ]);
     }
 
@@ -117,6 +120,7 @@ class TaskController extends Controller
         $model = $this->findModel($id);
         $model_pic = $this->findFiles($model->id_task);
         $items = ArrayHelper::map(Performer::find()->all(),'index','name');
+        $projects = ArrayHelper::map(Project::find()->all(),'id_project','projectName');
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             Yii::$app->cache->flush();
@@ -127,6 +131,7 @@ class TaskController extends Controller
             'model' => $model,
             'model_pic' => $model_pic,
             'items' => $items,
+            'projects' =>$projects,
         ]);
     }
 

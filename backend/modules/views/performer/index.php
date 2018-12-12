@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\widgets\Pjax;
 
 /* @var $this yii\web\View */
 /* @var $searchModel \common\models\PerformerSearch */
@@ -12,8 +13,6 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="performer-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
     <p>
         <?= Html::a(Yii::t('app','Create Performer'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
@@ -23,6 +22,8 @@ $this->params['breadcrumbs'][] = $this->title;
     } else {
         $actionColumns = '{view}';
     }
+
+   Pjax::begin(['enablePushState' => false]);
     echo GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -37,5 +38,6 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\ActionColumn',
                 'template' => $actionColumns],
         ],
-    ]); ?>
+    ]);
+    Pjax::end();?>
 </div>

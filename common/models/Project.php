@@ -12,9 +12,20 @@ namespace common\models;
  * @property string $responsible
  *
  * @property Tasks
+ * @property User
  */
 class Project extends \yii\db\ActiveRecord
 {
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => TimestampBehavior::className(),
+                'value' => new Expression('NOW()'),
+            ],
+        ];
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -29,9 +40,9 @@ class Project extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['projectName'], 'required'],
-            [['project_status'], 'integer'],
-            [['projectName', 'description', 'responsible'], 'string', 'max' => 255],
+            [['projectName','responsible'], 'required'],
+            [['project_status','responsible'], 'integer'],
+            [['projectName', 'description'], 'string', 'max' => 255],
         ];
     }
 
@@ -55,5 +66,13 @@ class Project extends \yii\db\ActiveRecord
     public function getTasks()
     {
         return $this->hasMany(Tasks::className(), ['project_id' => 'id_project']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUser()
+    {
+        return $this->hasOne(User::className(), ['id' => 'responsible']);
     }
 }

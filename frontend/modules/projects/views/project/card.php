@@ -5,18 +5,21 @@ use yii\widgets\ListView;
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
+/* @var $idProject*/
 
-$this->title = Yii::t('app','List Tasks');
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = Yii::t('app','Project ') . $idProject;
+if (!$hideBreadcrumbs){
+    $this->params['breadcrumbs'][] = ['label' => Yii::t('app','Projects'), 'url' => ['index']];
+    $this->params['breadcrumbs'][] = $this->title;
+}?>
 
-?>
-<div class="tasks-index" style="background-color: seashell; border-radius: 20px; padding: 20px;">
+<div class="tasksProject-index" style="background-color: #CCCCFF; border-radius: 20px; padding: 20px;">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
     <?= ListView::widget([
         'dataProvider' => $dataProvider,
-        'itemView' => 'view',
+        'itemView' => 'taskView',
         'layout' => "{items}\n{summary}\n{pager}",
         'options' => [
             'tag' => 'div',

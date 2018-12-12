@@ -9,12 +9,8 @@ use yii\widgets\DetailView;
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app','Performers'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
-
-//echo'<pre>'; var_dump($model['name']); exit;
 ?>
 <div class="performer-view">
-
-    <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
         <?= Html::a(Yii::t('app','Update'), ['update', 'id' => $model->index], ['class' => 'btn btn-primary']) ?>

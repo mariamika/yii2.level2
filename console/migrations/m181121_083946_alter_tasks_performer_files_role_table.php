@@ -28,8 +28,8 @@ class m181121_083946_alter_tasks_performer_files_role_table extends Migration
         $this->dropForeignKey('fk_tasks_performer','tasks');
         $this->dropForeignKey('fk_performer_user','performer');
         $this->dropForeignKey('fk_files_tasks','files');
-        $this->dropColumn('user','role_id');
         $this->dropForeignKey('fk_user_role','user');
+        $this->dropColumn('user','role_id');
         $this->dropForeignKey('fk_tasks_user','tasks');
     }
 }

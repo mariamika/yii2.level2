@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\widgets\Pjax;
 
 /* @var $this yii\web\View */
 /* @var $searchModel common\models\ProjectSearch */
@@ -12,14 +13,15 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="project-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
         <?= Html::a('Create Project', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
-    <?php \yii\widgets\Pjax::begin(['id' => 'project']);
+    <?php
+
+    Pjax::begin(['enablePushState' => false]);
 
     echo GridView::widget([
         'dataProvider' => $dataProvider,
@@ -27,15 +29,32 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id_project',
-            'projectName',
-            'project_status',
+            ['label' => 'projectName',
+                'format' => 'raw',
+                'value' => function ($data) {
+                  return Html::a($data->projectName,['project/view','id' => $data->id_project]);
+                },
+            ],
+            ['attribute' => 'project_status',
+                'filter' => [
+                    0 => 'Close',
+                    1 => 'Active'
+                ],
+                'label' => Yii::t('app','Status'),
+                'format' => 'raw',
+                'value' => function ($model, $key, $index, $column){
+                    $active = $model->{$column->attribute} === 1;
+                    return $active ? '<span class="label label-success">Active</span>' : '<span class="label label-danger">Close</span>';
+                }
+            ],
             'description',
-            'responsible',
+            ['attribute' => 'responsible',
+                'label' => Yii::t('app','Responsible'),
+                'value' => 'user.username'],
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]);
-
-    \yii\widgets\Pjax::end();?>
+    Pjax::end();
+    ?>
 </div>

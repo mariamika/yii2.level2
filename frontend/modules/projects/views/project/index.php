@@ -6,11 +6,11 @@ use yii\widgets\ListView;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app','List Tasks');
+$this->title = Yii::t('app','Projects');
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>
-<div class="tasks-index" style="background-color: seashell; border-radius: 20px; padding: 20px;">
+<div class="project-index" style="background-color: #CCCCFF; border-radius: 20px; padding: 20px;">
 
     <h1><?= Html::encode($this->title) ?></h1>
 

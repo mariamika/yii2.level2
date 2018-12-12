@@ -21,6 +21,9 @@ return [
         'chat' => [
             'class' => 'frontend\modules\chat\chat'
         ],
+        'projects' => [
+            'class' => 'frontend\modules\projects\projects',
+        ],
     ],
     'components' => [
         'request' => [

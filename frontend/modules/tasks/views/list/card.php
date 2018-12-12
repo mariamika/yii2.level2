@@ -32,6 +32,11 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'description',
             'priority',
+            ['label' => 'Project',
+                'format' => 'raw',
+                'value' => function ($data) {
+                    return Html::a('Project #' . $data->project_id, ['/projects/project/card', 'id' => $data->project_id]);
+                }],
             'dateCreate',
             'dateDeadline',
             'performer.name:text:Performer',

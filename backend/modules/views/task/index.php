@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\widgets\Pjax;
 
 /* @var $this yii\web\View */
 /* @var $searchModel \common\models\TaskSearch */
@@ -18,6 +19,8 @@ $this->title = Yii::t('app','Tasks');?>
     } else {
         $actionColumns = '{view}';
     }
+
+    Pjax::begin(['enablePushState' => false]);
     echo GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -38,14 +41,28 @@ $this->title = Yii::t('app','Tasks');?>
                     return $active ? '<span class="label label-success">Active</span>' : '<span class="label label-danger">Close</span>';
                 },
             ],
-            ['attribute' => 'description',
-                'label' => Yii::t('app','Description'),
-                //TODO не работает установка ширины столбца ...
-                //'contentOptions' => ['style' => 'width: 100px !important;'],
-                'value' => 'description'],
             ['attribute' => 'priority',
+                'filter' => [
+                    1 => 'Высокий приоритет',
+                    2 => 'Средний приоритет',
+                    3 => 'Низкий приоритет',
+                    4 => 'Необязательно к испольнению'
+                ],
                 'label' => Yii::t('app','Priority'),
-                'value' => 'priority'],
+                'format' => 'raw',
+                'value' => function ($model, $key, $index, $column){
+                    $arr_search = [
+                        1 => 'Высокий приоритет',
+                        2 => 'Средний приоритет',
+                        3 => 'Низкий приоритет',
+                        4 => 'Необязательно'
+                    ];
+
+                    if (array_key_exists($model->{$column->attribute},$arr_search)){
+                        return '<span class="label label-primary">' . $arr_search[$model->{$column->attribute}] . '</span>';
+                    }
+                }
+            ],
             ['attribute' => 'dateCreate',
                 'label' => Yii::t('app','Date Create'),
                 'format' => ['date', 'dd/MM/yyyy'],
@@ -60,9 +77,13 @@ $this->title = Yii::t('app','Tasks');?>
             ['attribute' => 'creatorTask',
                 'label' => Yii::t('app','Creator'),
                 'value' => 'user.username'],
+            ['attribute' => 'project',
+                'label' => Yii::t('app','Project'),
+                'value' => 'project.projectName'],
             ['class' => 'yii\grid\ActionColumn',
                 'template' => $actionColumns],
         ],
     ]);
+    Pjax::end();
     ?>
 </div>

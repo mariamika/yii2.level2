@@ -2,9 +2,11 @@
 
 namespace backend\modules\controllers;
 
+use common\models\User;
 use Yii;
 use common\models\Project;
 use common\models\ProjectSearch;
+use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -65,6 +67,7 @@ class ProjectController extends Controller
     public function actionCreate()
     {
         $model = new Project();
+        $items = ArrayHelper::map(User::find()->all(),'id','username');
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id_project]);
@@ -72,6 +75,7 @@ class ProjectController extends Controller
 
         return $this->render('create', [
             'model' => $model,
+            'items' => $items,
         ]);
     }
 
@@ -85,6 +89,7 @@ class ProjectController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $items = ArrayHelper::map(User::find()->all(),'id','username');
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id_project]);
@@ -92,6 +97,7 @@ class ProjectController extends Controller
 
         return $this->render('update', [
             'model' => $model,
+            'items' => $items,
         ]);
     }
 

@@ -6,6 +6,7 @@ use yii\widgets\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $model \common\models\Tasks */
 /* @var $model_pic \common\models\Files */
+/* @var $projects [] */
 /* @var $form yii\widgets\ActiveForm */
 
 ?>
@@ -24,6 +25,8 @@ use yii\widgets\ActiveForm;
         '3' => 'Низкий приоритет',
         '4' => 'Необязательно к исполнению'],
         ['prompt' => '-Choose a Priority-']) ?>
+
+    <?= $form->field($model, 'project_id')->dropDownList($projects, ['prompt' => '-Choose a Performer-']) ?>
 
     <?= $form->field($model, 'dateCreate')->widget(
         \yii\jui\DatePicker::className(),
