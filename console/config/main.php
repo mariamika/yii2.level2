@@ -9,7 +9,7 @@ $params = array_merge(
 return [
     'id' => 'app-console',
     'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log'],
+    'bootstrap' => ['log','events'],
     'controllerNamespace' => 'console\controllers',
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
@@ -22,6 +22,13 @@ return [
           ],
     ],
     'components' => [
+        'events' => [
+            'class' => 'common\components\eventComponents\EventComponent',
+        ],
+        'bot' => [
+            'class' => 'SonkoDmitry\Yii\TelegramBot\Component',
+            'apiToken' => '659141043:AAEzKcyMFSXyVW3lg1-wd-xC_1FGuIABKgs',
+        ],
         'log' => [
             'targets' => [
                 [

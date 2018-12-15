@@ -21,7 +21,10 @@
         "dmstr/yii2-adminlte-asset": "2.*",
         "yiisoft/yii2-jui": "^2.0",
         "yiisoft/yii2-imagine": "^2.1",
-        "cboden/ratchet": "^0.4.1"
+        "cboden/ratchet": "^0.4.1",
+        "sonko-dmitry/yii2-telegram-bot-api": "*",
+        "curl/curl": "^2.2",
+        "ext-curl": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

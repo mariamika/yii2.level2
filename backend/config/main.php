@@ -10,13 +10,16 @@ return [
     'id' => 'app-backend',
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
-    'bootstrap' => ['log'],
+    'bootstrap' => ['log','events'],
     'modules' => [
         'admin' => [
             'class' => 'backend\modules\Admin',
         ],
     ],
     'components' => [
+        'events' => [
+            'class' => 'common\components\eventComponents\EventComponent',
+        ],
         'request' => [
             'csrfParam' => '_csrf-backend',
             'baseUrl' => '',

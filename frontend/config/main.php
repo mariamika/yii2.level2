@@ -9,7 +9,7 @@ $params = array_merge(
 return [
     'id' => 'app-frontend',
     'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log'],
+    'bootstrap' => ['log','events'],
     'controllerNamespace' => 'frontend\controllers',
     'modules' => [
         'tasks' => [
@@ -26,10 +26,17 @@ return [
         ],
     ],
     'components' => [
+        'events' => [
+            'class' => 'common\components\eventComponents\EventComponent',
+        ],
         'request' => [
             'csrfParam' => '_csrf-frontend',
             'baseUrl' => '',
             'cookieValidationKey' => $params['cookieValidationKey'],
+        ],
+        'bot' => [
+            'class' => 'SonkoDmitry\Yii\TelegramBot\Component',
+            'apiToken' => '659141043:AAEzKcyMFSXyVW3lg1-wd-xC_1FGuIABKgs',
         ],
         'user' => [
             'identityClass' => 'common\models\User',
