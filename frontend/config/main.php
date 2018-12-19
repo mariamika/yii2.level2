@@ -24,6 +24,9 @@ return [
         'projects' => [
             'class' => 'frontend\modules\projects\projects',
         ],
+        'api' => [
+            'class' => 'frontend\modules\api\Api',
+        ],
     ],
     'components' => [
         'events' => [
@@ -33,10 +36,9 @@ return [
             'csrfParam' => '_csrf-frontend',
             'baseUrl' => '',
             'cookieValidationKey' => $params['cookieValidationKey'],
-        ],
-        'bot' => [
-            'class' => 'SonkoDmitry\Yii\TelegramBot\Component',
-            'apiToken' => '659141043:AAEzKcyMFSXyVW3lg1-wd-xC_1FGuIABKgs',
+            'parsers' => [
+                'application/json' => 'yii\web\JsonParser',
+            ]
         ],
         'user' => [
             'identityClass' => 'common\models\User',
@@ -68,6 +70,13 @@ return [
             'showScriptName' => false,
             'rules' => [
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'api/message', 'pluralize'=>false],
+                ['class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/task',
+                    'pluralize'=>false,
+                    'extraPatterns' => [
+                        'GET search' => 'search',
+                    ],],
             ],
         ],
     ],
