@@ -76,6 +76,7 @@ return [
                     'pluralize'=>false,
                     'extraPatterns' => [
                         'GET search' => 'search',
+                        'DELETE <id>' => 'del',
                     ],],
             ],
         ],
